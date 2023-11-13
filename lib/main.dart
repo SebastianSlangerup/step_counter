@@ -1,20 +1,67 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const GlobalApp());
+  runApp(const MyApp());
 }
 
-class GlobalApp extends StatelessWidget {
-  const GlobalApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Test')),
-        body: const Text('Hallo world'),
-      )
+    return const MaterialApp(
+      title: 'Test',
+      home: HomePage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  HomePageState createState() {
+    return HomePageState();  
+  }
+}
+
+class HomePageState extends State<HomePage> {
+  int _selectedIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  final List<String> _pageTitles = ['Settings', 'Home','User'];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_pageTitles[_selectedIndex]),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'User',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
