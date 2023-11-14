@@ -51,21 +51,15 @@ class HomePageState extends State<HomePage> {
       body: <Widget>[
         Container(
           alignment: Alignment.center,
-          child: Container(
-            child: Text(_pageTitles[_selectedIndex].toString()),
-          ),
+          child: Text(_pageTitles[_selectedIndex].toString()),
         ),
         Container(
           alignment: Alignment.center,
-          child: Container(
-            child: const StepCounter()
-          ),
+          child: const StepCounter(),
         ),
         Container(
           alignment: Alignment.center,
-          child: Container(
-            child: UserPage(),
-          ),
+          child: UserPage(),
         ),
       ][_selectedIndex],
     );
