@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:step_counter/pages/login_page.dart';
+import 'package:step_counter/pages/user_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -45,22 +45,25 @@ class HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue[800],
         onTap: _onItemTapped,
-        backgroundColor: Colors.white,
       ),
       body: <Widget>[
         Container(
           alignment: Alignment.center,
           child: Container(
-            child: Text(_pageTitles.toString()),
+            child: Text(_pageTitles[_selectedIndex].toString()),
           ),
         ),
         Container(
           alignment: Alignment.center,
-          child: const Text('Page 2'),
+          child: Container(
+            child: Text(_pageTitles[_selectedIndex].toString()),
+          ),
         ),
         Container(
           alignment: Alignment.center,
-          child: const Text('Page 3'),
+          child: Container(
+            child: UserPage(),
+          ),
         ),
       ][_selectedIndex],
     );
