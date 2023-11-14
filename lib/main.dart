@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 
   @override
   HomePageState createState() {
-    return HomePageState();  
+    return HomePageState();
   }
 }
 
@@ -35,7 +35,7 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  final List<String> _pageTitles = ['Settings', 'Home','User'];
+  final List<String> _pageTitles = ['Settings', 'Home', 'User'];
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,25 @@ class HomePageState extends State<HomePage> {
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue[800],
         onTap: _onItemTapped,
+        backgroundColor: Colors.black87,
       ),
+      body: <Widget>[
+        Container(
+          color: Colors.blueAccent,
+          alignment: Alignment.center,
+          child: const Text('Page 1'),
+        ),
+        Container(
+          color: Colors.blueGrey,
+          alignment: Alignment.center,
+          child: const Text('Page 2'),
+        ),
+        Container(
+          color: Colors.blue,
+          alignment: Alignment.center,
+          child: const Text('Page 3'),
+        ),
+      ][_selectedIndex],
     );
   }
 }
