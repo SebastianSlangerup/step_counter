@@ -16,8 +16,10 @@ class UserPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(actions: [
         IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
-      ]),
-      body: Center(child: Text("Logged in as:" + user.email!)),
+      ],
+      title: Text("Logged in as:${user.email!}"),
+      ),
     );
   }
 }
+

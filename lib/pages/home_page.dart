@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:step_counter/pages/settings_page.dart';
 
 
 import 'package:step_counter/pages/user_page.dart';
@@ -28,9 +29,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_pageTitles[_selectedIndex]),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -53,7 +51,7 @@ class HomePageState extends State<HomePage> {
       body: <Widget>[
         Container(
           alignment: Alignment.center,
-          child: Text(_pageTitles[_selectedIndex].toString()),
+          child: const SettingsPage(),
         ),
         Container(
           alignment: Alignment.center,

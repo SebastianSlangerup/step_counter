@@ -77,10 +77,18 @@ wrongPasswordMessage() {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Icon(
+                Icons.lock_person_outlined,
+                color: Colors.blue,
+                size: 40.0,
+                textDirection: TextDirection.ltr,
+                semanticLabel: 'Icon', // Announced in accessibility modes (e.g TalkBack/VoiceOver). This label does not show in the UI.
+              ),
+
               const SizedBox(
                 height: 50,
               ),
-              Text("Welcome!",
+              Text("Welcome back!",
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -106,6 +114,7 @@ wrongPasswordMessage() {
               const SizedBox(
                 height: 50,
               ),
+               const SizedBox(height: 50),
             ],
           ),
         ),
