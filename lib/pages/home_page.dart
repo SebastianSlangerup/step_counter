@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:step_counter/pages/user_page.dart';
+import 'package:flutter/foundation.dart';
 
+
+import 'package:step_counter/pages/user_page.dart';
 import '../step_counter.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,7 +57,7 @@ class HomePageState extends State<HomePage> {
         ),
         Container(
           alignment: Alignment.center,
-          child: const StepCounter(),
+          child: defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS ? const StepCounter() : Text("This is a crime")
         ),
         Container(
           alignment: Alignment.center,
