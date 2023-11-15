@@ -29,43 +29,69 @@ class _LoginPageState extends State<LoginPage> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
       
-      Navigator.pop(context);
+      Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+      Navigator.of(context).pop();
 
       if (e.code == 'user-not-found') {
-        wrongEmailMessage();
+        showDialog(
+        context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text(
+                "User not found",
+                style: TextStyle(),
+              ),
+            );
+          });
       } else if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
+        showDialog(
+          context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text(
+                  "Wrong password",
+                  style: TextStyle(),
+                ),
+              );
+            });
+
+      } else if (e.code == 'invalid-email'){
+        showDialog(
+        context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text(
+                "Invalid email",
+                style: TextStyle(),
+              ),
+            );
+          });
+      }else if (e.code == 'user-disabled'){
+        showDialog(
+        context: context,
+          builder: (context) {
+            return const AlertDialog(
+              title: Text(
+                "User disabled",
+                style: TextStyle(),
+              ),
+            );
+          });
+      }else {
+        showDialog(
+          context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  "Exception ${e.code!}",
+                  style: TextStyle(),
+                ),
+              );
+            });
       }
+      
     }
-
-  }
-
-wrongEmailMessage() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              "Wrong Email",
-              style: TextStyle(),
-            ),
-          );
-        });
-  }
-
-wrongPasswordMessage() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return const AlertDialog(
-            title: Text(
-              "Wrong Email",
-              style: TextStyle(),
-            ),
-          );
-        });
   }
 
   @override
