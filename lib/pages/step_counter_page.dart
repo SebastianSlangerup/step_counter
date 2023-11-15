@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
 
-class StepCounter extends StatefulWidget {
-  const StepCounter({super.key});
+class StepCounterPage extends StatefulWidget {
+  const StepCounterPage({super.key});
 
   @override
-  State<StepCounter> createState() => _StepCounterState();
+  State<StepCounterPage> createState() => _StepCounterPageState();
 }
 
-class _StepCounterState extends State<StepCounter> {
+class _StepCounterPageState extends State<StepCounterPage> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
   String _status = '?', _steps = '?';
