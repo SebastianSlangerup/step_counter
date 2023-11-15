@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 25,
               ),
-              CustomButton(onTap: signUserIn),
+              CustomButton(onTap: signUserIn, text: "Sign up",),
               const SizedBox(
                 height: 50,
               ),

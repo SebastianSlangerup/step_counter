@@ -31,9 +31,11 @@ class _SettingsState extends State<Settings>{
   void initState() {
     super.initState();
     _loadTheme();
+    _loadDistanceType();
   }
 
   bool _darkmode = true;
+  bool _isKm = true;
 
   void changeTheme(bool isDarkMode, BuildContext context) {
     if (isDarkMode) {
@@ -45,12 +47,33 @@ class _SettingsState extends State<Settings>{
     }
   }
 
+
+  void changeDistanceType(bool _isKm, BuildContext context) {
+    if (_isKm) {
+      _isKm = true;
+    } else {
+      _isKm = false;
+    }
+  }
+
   Future<bool> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
       return _darkmode = prefs.getBool('darkmode') ?? false;
   }
 
   Future<void> _setTheme(bool isDarkMode) async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool('darkmode', isDarkMode);
+    });
+  }
+
+  Future<bool> _loadDistanceType() async {
+    final prefs = await SharedPreferences.getInstance();
+      return _darkmode = prefs.getBool('darkmode') ?? false;
+  }
+
+  Future<void> _setDistanceType(bool isDarkMode) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       prefs.setBool('darkmode', isDarkMode);
@@ -76,7 +99,20 @@ class _SettingsState extends State<Settings>{
             ),
           ),
           const Divider(),
-          
+          ListTile(
+            title: const Text('km/mil'),
+            trailing: IosSwitch(
+              isEnabled: _isKm,
+              onChanged: (value) { // Pass the function here
+                setState(() {
+                  _isKm = value;
+                  changeDistanceType(_isKm, context);
+                  _setDistanceType(_isKm);
+                });
+              },
+            ),
+          ),
+           
         ],
       ),
     );

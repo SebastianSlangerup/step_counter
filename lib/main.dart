@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:step_counter/pages/settings_page.dart';
 import 'package:step_counter/pages/auth_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 
 void main() async {
