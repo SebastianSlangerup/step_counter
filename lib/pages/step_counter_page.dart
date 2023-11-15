@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
+import 'package:auto_size_text_field/auto_size_text_field.dart';
 
 class StepCounterPage extends StatefulWidget {
   const StepCounterPage({super.key});
@@ -11,7 +12,7 @@ class StepCounterPage extends StatefulWidget {
 class _StepCounterPageState extends State<StepCounterPage> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '?';
+  String _status = '?', _steps = '100';
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
         .onError(onPedestrianStatusError);
 
     _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+    _stepCountStream.listen(onStepCount);
 
     if (!mounted) return;
   }
@@ -59,22 +60,42 @@ class _StepCounterPageState extends State<StepCounterPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(_steps, style: const TextStyle(fontSize: 62)),
-        Icon(
-            _status == 'walking'
-                ? Icons.directions_walk
-                : _status == 'stopped'
-                    ? Icons.accessibility_new
-                    : Icons.error,
-            size: 100),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Element 1', style: TextStyle(fontSize: 24)),
-            Text('|', style: TextStyle(fontSize: 24)),
-            Text('Element 2', style: TextStyle(fontSize: 24)),
-          ],
-        )
+        Container(
+          margin: const EdgeInsets.only(top: 128),
+          width: 200,
+          height: 100,
+          child: const AutoSizeTextField(
+            decoration: ,
+            maxLines: 1,
+            minFontSize: 24,
+          ),
+        ),
+        const SizedBox(
+          width: 320,
+          height: 320,
+          child: Stack(
+            children: [
+              Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Element 1', style: TextStyle(fontSize: 24)),
+                        Text('|', style: TextStyle(fontSize: 24)),
+                        Text('Element 2', style: TextStyle(fontSize: 24)),
+                      ],
+                    ),
+                  ))
+            ],
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.0),
+        ),
+        Text(_status, style: const TextStyle(color: Colors.red)),
       ],
     );
   }

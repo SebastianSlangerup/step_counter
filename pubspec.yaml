@@ -38,6 +38,7 @@ dependencies:
   pedometer: ^4.0.1
   firebase_core: ^2.22.0
   firebase_auth: ^4.13.0
+  auto_size_text_field: ^2.2.2
 
 dev_dependencies:
   flutter_test:
