@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
 
-      if (e.code == 'user-not-found') {
+      if (e.code == 'invalid-login-credentials') {
         showDialog(
         context: context,
           builder: (context) {

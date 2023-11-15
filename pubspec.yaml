@@ -38,6 +38,7 @@ dependencies:
   pedometer: ^4.0.1
   firebase_core: ^2.22.0
   firebase_auth: ^4.13.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
