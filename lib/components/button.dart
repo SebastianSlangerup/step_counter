@@ -17,8 +17,8 @@ class CustomButton extends StatelessWidget {
           color: Colors.black,
           borderRadius: BorderRadius.circular(8)
         ),
-        padding: EdgeInsets.all(25),
-        margin: EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.all(25),
+        margin: const EdgeInsets.symmetric(horizontal: 25),
         child: const Center(
           child: Text(
             "Sign in",

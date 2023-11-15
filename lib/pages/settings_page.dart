@@ -8,9 +8,9 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: const Text("Settings"),
       ),
-      body: Settings(),
+      body: const Settings(),
     );
   }
 }
@@ -31,7 +31,7 @@ class _SettingsState extends State<Settings> {
       child: ListView(
         children: <Widget>[
           ListTile(
-            title: Text('Dark Mode'),
+            title: const Text('Dark Mode'),
             trailing: IosSwitch(
               isEnabled: darkmode,
               onChanged: (value) { // Pass the function here
@@ -41,7 +41,7 @@ class _SettingsState extends State<Settings> {
               },
             ),
           ),
-          Divider(),
+          const Divider(),
           
         ],
       ),

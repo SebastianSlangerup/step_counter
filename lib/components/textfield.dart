@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscure,
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
         decoration: InputDecoration(
             enabledBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.white)),
@@ -29,7 +29,7 @@ class CustomTextField extends StatelessWidget {
             fillColor: Colors.grey.shade200,
             filled: true,
             hintText: hintText,
-            hintStyle: TextStyle(color: Colors.black)
+            hintStyle: const TextStyle(color: Colors.black)
         ),
       ),
     );

@@ -4,7 +4,7 @@ import 'package:step_counter/components/button.dart';
 import 'package:step_counter/components/textfield.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -28,7 +28,8 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      
+      if (! context.mounted) return;
+
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
@@ -84,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
             builder: (context) {
               return AlertDialog(
                 title: Text(
-                  "Exception ${e.code!}",
-                  style: TextStyle(),
+                  "Error: ${e.code}!",
+                  style: const TextStyle(),
                 ),
               );
             });

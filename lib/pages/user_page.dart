@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatelessWidget {
@@ -15,7 +14,7 @@ class UserPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(actions: [
-        IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
+        IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))
       ],
       title: Text("Logged in as:${user.email!}"),
       ),
