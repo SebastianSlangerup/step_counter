@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:step_counter/pages/settings_page.dart';
+
+
 import 'package:step_counter/pages/user_page.dart';
+import 'package:step_counter/pages/step_counter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,9 +29,6 @@ class HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_pageTitles[_selectedIndex]),
-      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -49,21 +51,15 @@ class HomePageState extends State<HomePage> {
       body: <Widget>[
         Container(
           alignment: Alignment.center,
-          child: Container(
-            child: Text(_pageTitles[_selectedIndex].toString()),
-          ),
+          child: const SettingsPage(),
         ),
         Container(
           alignment: Alignment.center,
-          child: Container(
-            child: Text(_pageTitles[_selectedIndex].toString()),
-          ),
+          child: defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS ? const StepCounter() : const Text("This is a crime")
         ),
         Container(
           alignment: Alignment.center,
-          child: Container(
-            child: UserPage(),
-          ),
+          child: UserPage(),
         ),
       ][_selectedIndex],
     );
