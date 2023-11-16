@@ -8,7 +8,7 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
   });
 
-  final controller; 
+  final TextEditingController controller; 
   final String hintText;
   final bool obscure; 
 
