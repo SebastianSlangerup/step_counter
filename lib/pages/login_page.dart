@@ -95,6 +95,21 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  void resetPassword() async{
+    // await FirebaseAuth.instance.confirmPasswordReset(code: code, newPassword: newPassword)
+
+    showDialog(
+    context: context,
+    builder: (context) {
+      return const AlertDialog(
+        title: Text(
+          "Not implemented!",
+          style: TextStyle(),
+        ),
+      );
+    });
+  }
+
   Future gotoSignup() async {
     return await Navigator.pushReplacementNamed(context, '/signup');
   }
@@ -155,11 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      //TODO Make this a button to redirect
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.blue[600]),
-                    ),
+                    DiscreteButton(onTap: resetPassword, text: "Forgot your password?")
                   ],
                 ),
               ),

@@ -23,15 +23,11 @@ class _DiscreteButtonState extends State<DiscreteButton> {
     return Listener(
       child: GestureDetector(
         onTap: widget.onTap,
-        child: Container(
-          padding: const EdgeInsets.all(25),
-          margin: const EdgeInsets.symmetric(horizontal: 25),
-          child: Center(
-            child: Text(
-              widget.text,
-              style: TextStyle(
-                color: isTouching ? Colors.white : Colors.blue,
-              ),
+        child: Center(
+          child: Text(
+            widget.text,
+            style: TextStyle(
+              color: isTouching ? Colors.white : Colors.blue,
             ),
           ),
         ),
