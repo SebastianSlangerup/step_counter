@@ -70,13 +70,13 @@ class _SettingsState extends State<Settings>{
 
   Future<bool> _loadDistanceType() async {
     final prefs = await SharedPreferences.getInstance();
-      return _darkmode = prefs.getBool('darkmode') ?? false;
+      return _isKm = prefs.getBool('isKm') ?? false;
   }
 
-  Future<void> _setDistanceType(bool isDarkMode) async {
+  Future<void> _setDistanceType(bool _isKm) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setBool('darkmode', isDarkMode);
+      prefs.setBool('isKm', _isKm);
     });
   }
 

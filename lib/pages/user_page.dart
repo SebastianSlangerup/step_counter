@@ -42,19 +42,41 @@ class UserPage extends StatelessWidget {
               body: SafeArea(
                 child: Center(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Text(
+                              "Username: ${user.displayName ?? user.email}"
+                            ),
+                            Text(
+                              "Is Email verified: ${user.emailVerified}",
+                            ),
+                            Text(
+                              "User number ${user.phoneNumber}",
+                            )
+                          ],
+                        ),
+                      ), 
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                            child: Column(
+                              children: [
+                                  const SizedBox(height: 50),
 
-                      const SizedBox(height: 50),
+                                  Center(child: CustomButton(onTap: resetPassword, text: "Reset password")),
 
-                      Center(child: CustomButton(onTap: resetPassword, text: "Reset password")),
+                                  const SizedBox(height: 10),
 
-                      const SizedBox(height: 10),
+                                  Center(child: CustomButton(onTap: sendEmailVerification, text: "Re-send Email Verification")),
 
-                      Center(child: CustomButton(onTap: sendEmailVerification, text: "Re-send Email Verification")),
-
-                      const SizedBox(height: 25),
-
+                                  const SizedBox(height: 25),
+                                ]
+                              ),
+                          ),
+                      ),
                     ],
                   ),
                 ),
