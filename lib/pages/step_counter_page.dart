@@ -47,6 +47,58 @@ class _StepCounterPageState extends State<StepCounterPage> {
     });
   }
 
+double kmToMiles(double distance) {
+  double miles = distance * 0.621371;
+  return miles;
+}
+
+double milesToKm(double distance) {
+  double km = distance / 1.621371;
+  return km;
+}
+
+double distanceToKcal(String pace, double distanceInMiles) {
+  double caloriesPerMile;
+
+  switch (pace) {
+    case 'Slow':
+      caloriesPerMile = 60;
+      break;
+    case 'Average':
+      caloriesPerMile = 70;
+      break;
+    case 'Fast':
+      caloriesPerMile = 85;
+      break;
+    default:
+      throw ArgumentError('Invalid pace. Choose "Slow", "Average", or "Fast".');
+  }
+
+  return distanceInMiles * caloriesPerMile;
+}
+
+
+double calculateDistanceInKm(int steps, String pace) {
+  double stepLengthMeters;
+
+  switch (pace) {
+    case 'Slow':
+      stepLengthMeters = 0.65;
+      break;
+    case 'Average':
+      stepLengthMeters = 0.75;
+      break;
+    case 'Fast':
+      stepLengthMeters = 0.85;
+      break;
+    default:
+      throw ArgumentError('Invalid pace. Choose "Slow", "Average", or "Fast".');
+  }
+
+  double distanceMeters = steps * stepLengthMeters;
+  return distanceMeters / 1000; // Convert meters to kilometers
+}
+
   void initPlatformState() {
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
     _pedestrianStatusStream
