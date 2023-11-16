@@ -12,7 +12,10 @@ class StepCounterPage extends StatefulWidget {
 class _StepCounterPageState extends State<StepCounterPage> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '100';
+  String _status = '?', _steps = '0';
+  int distanceWalked = 1000;
+  int caloriesBurned = 100;
+  String measurement = "km";
 
   @override
   void initState() {
@@ -51,7 +54,7 @@ class _StepCounterPageState extends State<StepCounterPage> {
         .onError(onPedestrianStatusError);
 
     _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onStepCount);
+    _stepCountStream.listen(onStepCount).onError(onStepCountError);
 
     if (!mounted) return;
   }
@@ -61,31 +64,42 @@ class _StepCounterPageState extends State<StepCounterPage> {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 128),
-          width: 200,
-          height: 100,
-          child: const AutoSizeTextField(
-            decoration: ,
-            maxLines: 1,
-            minFontSize: 24,
+          margin: const EdgeInsets.only(top: 150),
+          width: 300,
+          height: 280,
+          child: FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(_steps),
           ),
         ),
-        const SizedBox(
+        SizedBox(
           width: 320,
-          height: 320,
+          height: 260,
           child: Stack(
             children: [
               Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
-                  child: Center(
+                  child: SizedBox(
+                    height: 40,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Element 1', style: TextStyle(fontSize: 24)),
-                        Text('|', style: TextStyle(fontSize: 24)),
-                        Text('Element 2', style: TextStyle(fontSize: 24)),
+                        Text(measurement, style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.black54)
+                        ),
+                        Text(distanceWalked.toString(), style: const TextStyle(fontSize: 24)),
+                        const VerticalDivider(
+                          thickness: 2,
+                          width: 50,
+                        ),
+                        Text(caloriesBurned.toString(), style: const TextStyle(fontSize: 24)),
+                        const Text('kcal', style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black54, )
+                        ),
                       ],
                     ),
                   ))
