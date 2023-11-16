@@ -21,6 +21,8 @@ class SettingsPage extends StatelessWidget {
 class Settings extends StatefulWidget {
   const Settings({super.key});
 
+
+
   @override
   State<Settings> createState() => _SettingsState();
   
@@ -90,7 +92,7 @@ class _SettingsState extends State<Settings>{
             title: const Text('Dark Mode'),
             trailing: IosSwitch(
               isEnabled: _darkmode,
-              onChanged: (value) { // Pass the function here
+              onChanged: (value) {
                 setState(() {
                   _darkmode = value;
                   changeTheme(_darkmode, context);
@@ -104,7 +106,7 @@ class _SettingsState extends State<Settings>{
             title: const Text('km/mil'),
             trailing: IosSwitch(
               isEnabled: _isKm,
-              onChanged: (value) { // Pass the function here
+              onChanged: (value) {
                 setState(() {
                   _isKm = value;
                   changeDistanceType(_isKm, context);
