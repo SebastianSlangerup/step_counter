@@ -11,13 +11,13 @@ class UserPage extends StatelessWidget {
   }
 
   void resetPassword() {
-    if (user!.email != null){
+    if (user!.email != null) {
       FirebaseAuth.instance.sendPasswordResetEmail(email: user!.email!);
     }
   }
 
   void sendEmailVerification() async {
-     if (user != null){
+    if (user != null) {
       await user?.sendEmailVerification();
     }
   }
@@ -35,57 +35,92 @@ class UserPage extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(
                 actions: [
-                  IconButton(onPressed: signUserOut, icon: const Icon(Icons.logout))
+                  IconButton(
+                      onPressed: signUserOut, icon: const Icon(Icons.logout))
                 ],
-                title: Text("Logged in as: ${user.displayName ?? user.email}"),
+                title: Text("Logged in as: ${user.displayName ?? user.email}", 
+                style: TextStyle(
+                  fontWeight: FontWeight.w200,
+                  color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white70
+                                  : Colors.black26,
+                  ),
+                ),
               ),
               body: SafeArea(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topCenter,
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white10
+                                  : Colors.black26,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(25),
+                        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
                         child: Column(
                           children: [
-                            Text(
-                              "Username: ${user.displayName ?? user.email}"
+
+                            ListTile(
+                              title: const Text('Username:'),
+                              trailing: Text(
+                                  "${user.displayName ?? user.email}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
                             ),
-                            Text(
-                              "Is Email verified: ${user.emailVerified}",
+                            ListTile(
+                              title: const Text('Is Email verified:'),
+                              trailing: Text(
+                                   user.emailVerified ? 'Verified' : 'Not verified',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
                             ),
-                            Text(
-                              "User number ${user.phoneNumber}",
-                            )
+                            ListTile(
+                              title: const Text('Phone number:'),
+                              trailing: Text(
+                                  user.phoneNumber ?? 'Non given',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                            ),
                           ],
                         ),
-                      ), 
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                            child: Column(
-                              children: [
-                                  const SizedBox(height: 50),
-
-                                  Center(child: CustomButton(onTap: resetPassword, text: "Reset password")),
-
-                                  const SizedBox(height: 10),
-
-                                  Center(child: CustomButton(onTap: sendEmailVerification, text: "Re-send Email Verification")),
-
-                                  const SizedBox(height: 25),
-                                ]
-                              ),
-                          ),
                       ),
-                    ],
-                  ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(children: [
+                        const SizedBox(height: 50),
+                        Center(
+                            child: CustomButton(
+                                onTap: resetPassword,
+                                text: "Reset password")),
+                        const SizedBox(height: 10),
+                        Center(
+                            child: CustomButton(
+                                onTap: sendEmailVerification,
+                                text: "Re-send Email Verification")),
+                        const SizedBox(height: 25),
+                      ]),
+                    ),
+                  ],
                 ),
               ),
             );
           } else {
             return Scaffold(
               appBar: AppBar(
-                title: Text('No User Logged In'),
+                title: const Text('No User Logged In'),
               ),
               body: const Center(
                 child: Text('Please log in to view this page'),
@@ -106,4 +141,3 @@ class UserPage extends StatelessWidget {
     );
   }
 }
-
