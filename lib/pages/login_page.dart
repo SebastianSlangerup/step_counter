@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:step_counter/components/button.dart';
+import 'package:step_counter/components/discrete_button.dart';
 import 'package:step_counter/components/textfield.dart';
+import 'package:step_counter/pages/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text, password: passwordController.text);
-      if (! context.mounted) return;
+      if (!context.mounted) return;
 
       Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
@@ -36,18 +38,18 @@ class _LoginPageState extends State<LoginPage> {
 
       if (e.code == 'invalid-login-credentials') {
         showDialog(
-        context: context,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text(
-                "User not found",
-                style: TextStyle(),
-              ),
-            );
-          });
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text(
+                  "User not found",
+                  style: TextStyle(),
+                ),
+              );
+            });
       } else if (e.code == 'wrong-password') {
         showDialog(
-          context: context,
+            context: context,
             builder: (context) {
               return const AlertDialog(
                 title: Text(
@@ -56,32 +58,31 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               );
             });
-
-      } else if (e.code == 'invalid-email'){
+      } else if (e.code == 'invalid-email') {
         showDialog(
-        context: context,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text(
-                "Invalid email",
-                style: TextStyle(),
-              ),
-            );
-          });
-      }else if (e.code == 'user-disabled'){
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text(
+                  "Invalid email",
+                  style: TextStyle(),
+                ),
+              );
+            });
+      } else if (e.code == 'user-disabled') {
         showDialog(
-        context: context,
-          builder: (context) {
-            return const AlertDialog(
-              title: Text(
-                "User disabled",
-                style: TextStyle(),
-              ),
-            );
-          });
-      }else {
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                title: Text(
+                  "User disabled",
+                  style: TextStyle(),
+                ),
+              );
+            });
+      } else {
         showDialog(
-          context: context,
+            context: context,
             builder: (context) {
               return AlertDialog(
                 title: Text(
@@ -91,8 +92,11 @@ class _LoginPageState extends State<LoginPage> {
               );
             });
       }
-      
     }
+  }
+
+  Future gotoSignup() async {
+    return await Navigator.pushReplacementNamed(context, '/signup');
   }
 
   @override
@@ -109,7 +113,8 @@ class _LoginPageState extends State<LoginPage> {
                 color: Colors.blue,
                 size: 40.0,
                 textDirection: TextDirection.ltr,
-                semanticLabel: 'Icon', // Announced in accessibility modes (e.g TalkBack/VoiceOver). This label does not show in the UI.
+                semanticLabel:
+                    'Icon', // Announced in accessibility modes (e.g TalkBack/VoiceOver). This label does not show in the UI.
               ),
 
               const SizedBox(
@@ -137,11 +142,40 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(
                 height: 25,
               ),
-              CustomButton(onTap: signUserIn, text: "Sign up",),
-              const SizedBox(
-                height: 50,
+              CustomButton(
+                onTap: signUserIn,
+                text: "Sign in",
               ),
-               const SizedBox(height: 50),
+              const SizedBox(
+                height: 10,
+              ),
+              // forgot password?
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      //TODO Make this a button to redirect
+                      'Forgot Password?',
+                      style: TextStyle(color: Colors.blue[600]),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 50),
+
+              const Divider(
+                color: Colors.grey,
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(width: 2),
+                  DiscreteButton(onTap: gotoSignup, text: "Not a member?")
+                ],
+              )
             ],
           ),
         ),
