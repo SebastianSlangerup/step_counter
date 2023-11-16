@@ -69,7 +69,7 @@ class UserPage extends StatelessWidget {
                             ListTile(
                               title: const Text('Username:'),
                               trailing: Text(
-                                  " ${user.displayName ?? user.email}",
+                                  "${user.displayName ?? user.email}",
                                   style: const TextStyle(
                                     fontSize: 18,
                                   ),
@@ -78,7 +78,7 @@ class UserPage extends StatelessWidget {
                             ListTile(
                               title: const Text('Is Email verified:'),
                               trailing: Text(
-                                   "${user.emailVerified ? 'Verified' : 'Not verified'}",
+                                   user.emailVerified ? 'Verified' : 'Not verified',
                                   style: const TextStyle(
                                     fontSize: 18,
                                   ),
@@ -87,7 +87,7 @@ class UserPage extends StatelessWidget {
                             ListTile(
                               title: const Text('Phone number:'),
                               trailing: Text(
-                                  " ${user.phoneNumber ?? 'Non given'}",
+                                  user.phoneNumber ?? 'Non given',
                                   style: const TextStyle(
                                     fontSize: 18,
                                   ),
