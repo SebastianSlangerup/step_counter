@@ -8,21 +8,22 @@ import 'firebase_options.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  SharedPreferences preff = await SharedPreferences.getInstance();
-  runApp(MyApp());
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  runApp(MyApp(prefs));
 }
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  late SharedPreferences preferences;
+  MyApp(this.preferences, {super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<MyApp> createState() => MyAppState();
   
-  static _MyAppState of(BuildContext context) =>
-    context.findAncestorStateOfType<_MyAppState>()!;
+  static MyAppState of(BuildContext context) =>
+    context.findAncestorStateOfType<MyAppState>()!;
 }
 
-class _MyAppState extends State<MyApp> {
+class MyAppState extends State<MyApp> {
   ThemeMode _themeMode = ThemeMode.system;
 
   void changeTheme(ThemeMode themeMode) {
@@ -31,10 +32,17 @@ class _MyAppState extends State<MyApp> {
       });
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
+    var isDarkMode = widget.preferences.getBool('isDarkMode');
+    if (isDarkMode == null) {
+      _themeMode = ThemeMode.system;
+    } else {
+      isDarkMode
+          ? _themeMode = ThemeMode.dark
+          : _themeMode = ThemeMode.light;
+    }
+
     return MaterialApp(
       theme: ThemeData(),
       darkTheme: ThemeData.dark(),

@@ -13,74 +13,74 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Settings"),
       ),
-      body: const Settings(),
+      body: Settings(context),
     );
   }
 }
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
-
-
+  const Settings(BuildContext context, {super.key});
 
   @override
   State<Settings> createState() => _SettingsState();
-  
 }
 
-class _SettingsState extends State<Settings>{
-
+class _SettingsState extends State<Settings> {
   @override
   void initState() {
     super.initState();
+    initDefaultValues(context);
   }
 
-  bool _darkmode = true;
-  bool _isKm = true;
+  bool _darkMode = false;
+  bool _isMetric = true;
+  List<String> walkingPace = ["Slow", "Average", "Fast"];
+  String selection = "";
 
-  List<String> pace = <String>['One', 'Two', 'Three', 'Four'];
-
-  void changeTheme(bool isDarkMode, BuildContext context) {
-    if (isDarkMode) {
-      _darkmode = true;
-      MyApp.of(context).changeTheme(ThemeMode.dark);
-    } else {
-      _darkmode = false;
-      MyApp.of(context).changeTheme(ThemeMode.light);
-    }
-  }
-
-
-  void changeDistanceType(bool isKm, BuildContext context) {
-    if (isKm) {
-      _isKm = true;
-    } else {
-      _isKm = false;
-    }
-  }
-
-  Future<bool> _loadTheme() async {
+  void initDefaultValues(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-      return _darkmode = prefs.getBool('darkmode') ?? false;
-  }
+    if (!context.mounted) return;
 
-  Future<void> _setTheme(bool isDarkMode) async {
-    final prefs = await SharedPreferences.getInstance();
+    var isDarkMode = prefs.getBool('isDarkMode');
+    var isMetric = prefs.getBool('isMetric') ?? true;
+    selection = prefs.getString('selection') ?? walkingPace.first;
+    var brightness = MediaQuery.platformBrightnessOf(context);
+
+    // DARK MODE SWITCH
+    if (isDarkMode == null) {
+      changeTheme(brightness == Brightness.dark, context);
+    } else {
+      changeTheme(isDarkMode, context);
+    }
+
+    // METRIC SWITCH
     setState(() {
-      prefs.setBool('darkmode', isDarkMode);
+      _isMetric = isMetric;
     });
   }
 
-  Future<bool> _loadDistanceType() async {
+  void changeTheme(bool isDarkMode, BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-      return _isKm = prefs.getBool('isKm') ?? false;
+    if (!context.mounted) return;
+
+    setState(() {
+      _darkMode = isDarkMode;
+    });
+    prefs.setBool('isDarkMode', isDarkMode);
+
+    isDarkMode
+        ? MyApp.of(context).changeTheme(ThemeMode.dark)
+        : MyApp.of(context).changeTheme(ThemeMode.light);
   }
 
-  Future<void> _setDistanceType(bool isKm) async {
+  void changeDistanceType(bool isMetric) async {
     final prefs = await SharedPreferences.getInstance();
+    if (!context.mounted) return;
+
     setState(() {
-      prefs.setBool('isKm', isKm);
+      _isMetric = isMetric;
     });
+    prefs.setBool('isMetric', isMetric);
   }
 
   @override
@@ -91,41 +91,31 @@ class _SettingsState extends State<Settings>{
           ListTile(
             title: const Text('Dark Mode'),
             trailing: IosSwitch(
-              isEnabled: _darkmode,
+              isEnabled: _darkMode,
               onChanged: (value) {
-                setState(() {
-                  _darkmode = value;
-                  changeTheme(_darkmode, context);
-                  _setTheme(_darkmode);
-                });
+                changeTheme(value, context);
               },
             ),
           ),
           const Divider(),
           ListTile(
-            title: const Text('km/mil'),
+            title: const Text('Use Metric?'),
             trailing: IosSwitch(
-              isEnabled: _isKm,
+              isEnabled: _isMetric,
               onChanged: (value) {
-                setState(() {
-                  _isKm = value;
-                  changeDistanceType(_isKm, context);
-                  _setDistanceType(_isKm);
-                });
+                changeDistanceType(value);
               },
             ),
           ),
           const Divider(),
-          const ListTile(
-            title: Text('Waking pace'),
-            trailing: CustomDropDownMenu(
-              mylist: ["Test","test2","test3"],
-                    
-            )
-          ),
+          ListTile(
+              title: const Text('Walking pace'),
+              trailing: CustomDropDownMenu(
+                myList: walkingPace,
+                currentSelection: selection
+              )),
         ],
       ),
     );
   }
 }
-
