@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:step_counter/components/custom_dropdown.dart';
 import 'package:step_counter/components/ios_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:step_counter/main.dart';
@@ -30,12 +31,12 @@ class _SettingsState extends State<Settings>{
   @override
   void initState() {
     super.initState();
-    _loadTheme();
-    _loadDistanceType();
   }
 
   bool _darkmode = true;
   bool _isKm = true;
+
+  List<String> pace = <String>['One', 'Two', 'Three', 'Four'];
 
   void changeTheme(bool isDarkMode, BuildContext context) {
     if (isDarkMode) {
@@ -48,8 +49,8 @@ class _SettingsState extends State<Settings>{
   }
 
 
-  void changeDistanceType(bool _isKm, BuildContext context) {
-    if (_isKm) {
+  void changeDistanceType(bool isKm, BuildContext context) {
+    if (isKm) {
       _isKm = true;
     } else {
       _isKm = false;
@@ -73,10 +74,10 @@ class _SettingsState extends State<Settings>{
       return _isKm = prefs.getBool('isKm') ?? false;
   }
 
-  Future<void> _setDistanceType(bool _isKm) async {
+  Future<void> _setDistanceType(bool isKm) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setBool('isKm', _isKm);
+      prefs.setBool('isKm', isKm);
     });
   }
 
@@ -112,7 +113,14 @@ class _SettingsState extends State<Settings>{
               },
             ),
           ),
-           
+          const Divider(),
+          const ListTile(
+            title: Text('Waking pace'),
+            trailing: CustomDropDownMenu(
+              mylist: ["Test","test2","test3"],
+                    
+            )
+          ),
         ],
       ),
     );

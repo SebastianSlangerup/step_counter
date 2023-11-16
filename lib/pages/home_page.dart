@@ -24,7 +24,6 @@ class HomePageState extends State<HomePage> {
     });
   }
 
-  final List<String> _pageTitles = ['Settings', 'Home', 'User'];
 
   @override
   Widget build(BuildContext context) {
