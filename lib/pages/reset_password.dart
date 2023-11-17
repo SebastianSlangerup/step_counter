@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:step_counter/components/button.dart';
 import 'package:step_counter/components/discrete_button.dart';
 import 'package:step_counter/components/textfield.dart';
-import 'package:step_counter/pages/signup_page.dart';
 
 class ResetPassword extends StatefulWidget {
   const ResetPassword({super.key});
@@ -14,9 +13,6 @@ class ResetPassword extends StatefulWidget {
 
 class _ResetPasswordPageState extends State<ResetPassword> {
   final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final newPassword = TextEditingController();
-  final resetcode = TextEditingController();
 
 
   void sendResetMail() async {
@@ -39,42 +35,6 @@ class _ResetPasswordPageState extends State<ResetPassword> {
       Navigator.of(context).pop();
 
     } on FirebaseAuthException catch (e) {
-      Navigator.of(context).pop();
-
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              "Error: ${e.code}!",
-              style: const TextStyle(),
-            ),
-          );
-        });
-    }
-  }
-
-  void confirmPasswordReset() async {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-
-    try {
-
-      await FirebaseAuth.instance.confirmPasswordReset(
-        code: resetcode.text,
-        newPassword: newPassword.text
-      ); 
-
-      if (!context.mounted) return;
-      
-      Navigator.of(context).pop();
-    }on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
 
       showDialog(
