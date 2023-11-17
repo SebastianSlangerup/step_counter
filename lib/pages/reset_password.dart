@@ -3,23 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:step_counter/components/button.dart';
 import 'package:step_counter/components/discrete_button.dart';
 import 'package:step_counter/components/textfield.dart';
+import 'package:step_counter/pages/signup_page.dart';
 
-
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<ResetPassword> createState() => _ResetPasswordPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
-
+class _ResetPasswordPageState extends State<ResetPassword> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final name = TextEditingController();
+  final newPassword = TextEditingController();
+  final resetcode = TextEditingController();
 
 
-  void signin() async {
+  void sendResetMail() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -30,19 +30,13 @@ class _SignUpPageState extends State<SignUpPage> {
     );
 
     try {
-      UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text
+      await FirebaseAuth.instance.sendPasswordResetEmail(
+        email: emailController.text
       );
 
-      await result.user?.updateDisplayName(name.text);
-
-
-      if (! context.mounted) return;
+      if (!context.mounted) return;
 
       Navigator.of(context).pop();
-      
-      gotoLogin();
 
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
@@ -56,13 +50,49 @@ class _SignUpPageState extends State<SignUpPage> {
               style: const TextStyle(),
             ),
           );
-        }); 
+        });
     }
   }
-  Future gotoLogin() async{
+
+  void confirmPasswordReset() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+
+    try {
+
+      await FirebaseAuth.instance.confirmPasswordReset(
+        code: resetcode.text,
+        newPassword: newPassword.text
+      ); 
+
+      if (!context.mounted) return;
+      
+      Navigator.of(context).pop();
+    }on FirebaseAuthException catch (e) {
+      Navigator.of(context).pop();
+
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              "Error: ${e.code}!",
+              style: const TextStyle(),
+            ),
+          );
+        });
+    }
+  }
+
+  Future gotoLogin() async {
     return await Navigator.pushReplacementNamed(context, '/login');
   }
-  
 
   @override
   Widget build(BuildContext context) {
@@ -74,17 +104,18 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Icon(
-                Icons.person,
+                Icons.lock_person_outlined,
                 color: Colors.blue,
                 size: 40.0,
                 textDirection: TextDirection.ltr,
-                semanticLabel: 'Icon', // Announced in accessibility modes (e.g TalkBack/VoiceOver). This label does not show in the UI.
+                semanticLabel:
+                    'Icon', // Announced in accessibility modes (e.g TalkBack/VoiceOver). This label does not show in the UI.
               ),
 
               const SizedBox(
                 height: 50,
               ),
-              Text("Welcome to stepcounter!",
+              Text("Reset password",
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 16,
@@ -93,45 +124,28 @@ class _SignUpPageState extends State<SignUpPage> {
                 height: 50,
               ),
               CustomTextField(
-                  controller: name,
-                  obscure: false,
-                  hintText: "Fullname:"),
-
-              const SizedBox(
-                height: 25,
-              ),
-
-              CustomTextField(
                   controller: emailController,
                   obscure: false,
-                  hintText: "Email:"),
+                  hintText: "Email"),
               const SizedBox(
                 height: 25,
               ),
-              CustomTextField(
-                  controller: passwordController,
-                  obscure: true,
-                  hintText: "password:"),
-              const SizedBox(
-                height: 25,
-              ),
-              CustomButton(onTap: signin, text: "Sign Up",),
-              const SizedBox(
-                height: 50,
+
+              CustomButton(
+                onTap: sendResetMail,
+                text: "Reset password",
               ),
 
-              const Divider(
-                color: Colors.grey,
+              const SizedBox(
+                height: 10,
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(width: 2),
-                  DiscreteButton(onTap: gotoLogin, text: "Back to login")
+                  DiscreteButton(onTap: gotoLogin, text: "Go back")
                 ],
               )
-
             ],
           ),
         ),

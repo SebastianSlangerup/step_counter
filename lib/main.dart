@@ -4,6 +4,7 @@ import 'package:step_counter/pages/auth_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:step_counter/pages/home_page.dart';
 import 'package:step_counter/pages/login_page.dart';
+import 'package:step_counter/pages/reset_password.dart';
 import 'package:step_counter/pages/signup_page.dart';
 import 'firebase_options.dart';
 
@@ -58,6 +59,7 @@ class MyAppState extends State<MyApp> {
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
+        '/reset_password' : (context) => ResetPassword(),
       },
     );
   }

@@ -95,20 +95,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void resetPassword() async{
-    // await FirebaseAuth.instance.confirmPasswordReset(code: code, newPassword: newPassword)
-
-    showDialog(
-    context: context,
-    builder: (context) {
-      return const AlertDialog(
-        title: Text(
-          "Not implemented!",
-          style: TextStyle(),
-        ),
-      );
-    });
+  Future resetPassword() async {
+    return await Navigator.pushReplacementNamed(context, '/reset_password');
   }
+
 
   Future gotoSignup() async {
     return await Navigator.pushReplacementNamed(context, '/signup');
