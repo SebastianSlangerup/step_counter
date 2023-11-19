@@ -22,7 +22,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
     final prefs = await SharedPreferences.getInstance();
     if (! context.mounted) return;
 
-    prefs.setString('selection', selection);
+    prefs.setString('walkingPreference', selection);
     setState(() {
       selection = widget.currentSelection;
     });

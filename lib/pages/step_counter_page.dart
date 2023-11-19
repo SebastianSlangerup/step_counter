@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pedometer/pedometer.dart';
-import 'package:auto_size_text_field/auto_size_text_field.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:step_counter/constants/walking_preferences.dart';
 
 class StepCounterPage extends StatefulWidget {
   const StepCounterPage({super.key});
@@ -12,10 +13,12 @@ class StepCounterPage extends StatefulWidget {
 class _StepCounterPageState extends State<StepCounterPage> {
   late Stream<StepCount> _stepCountStream;
   late Stream<PedestrianStatus> _pedestrianStatusStream;
-  String _status = '?', _steps = '0';
-  int distanceWalked = 1000;
-  int caloriesBurned = 100;
-  String measurement = "km";
+  String _status = '?', _steps = '178';
+  String distanceWalked = '1000';
+  String caloriesBurned = '100';
+  bool _isMetric = true;
+  int caloriesPerKilometer = 70;
+  int caloriesPerMile = 100;
 
   @override
   void initState() {
@@ -23,10 +26,12 @@ class _StepCounterPageState extends State<StepCounterPage> {
     initPlatformState();
   }
 
-  void onStepCount(StepCount event) {
+  void onStepCount(StepCount event) async {
     setState(() {
       _steps = event.steps.toString();
     });
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('stepsWalked', event.steps);
   }
 
   void onPedestrianStatusChanged(PedestrianStatus event) {
@@ -77,7 +82,6 @@ double distanceToKcal(String pace, double distanceInMiles) {
   return distanceInMiles * caloriesPerMile;
 }
 
-
 double calculateDistanceInKm(int steps, String pace) {
   double stepLengthMeters;
 
@@ -99,16 +103,41 @@ double calculateDistanceInKm(int steps, String pace) {
   return distanceMeters / 1000; // Convert meters to kilometers
 }
 
-  void initPlatformState() {
+  void initPlatformState() async {
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
     _pedestrianStatusStream
         .listen(onPedestrianStatusChanged)
         .onError(onPedestrianStatusError);
 
     _stepCountStream = Pedometer.stepCountStream;
-    _stepCountStream.listen(onStepCount).onError(onStepCountError);
+    _stepCountStream.listen(onStepCount);
 
-    if (!mounted) return;
+    final prefs = await SharedPreferences.getInstance();
+    if (! context.mounted) return;
+
+    var steps = prefs.getInt('stepsWalked') ?? int.parse(_steps);
+    setState(() {
+      _steps = steps.toString();
+    });
+
+    String walkingPreference = prefs.getString('walkingPreference') ?? 'Average';
+    _isMetric = prefs.getBool('isMetric') ?? true;
+
+    setState(() {
+      distanceWalked = (steps / WalkingPreferences.metricDistanceCalculations[walkingPreference]!)
+          .toStringAsFixed(2);
+    });
+
+    setState(() {
+      caloriesBurned = (double.parse(distanceWalked) * caloriesPerKilometer).toStringAsFixed(1);
+    });
+
+    // Recalculate the distance walked to imperial measurement
+    if (! _isMetric) {
+      setState(() {
+        distanceWalked = (double.parse(distanceWalked) * 0.621).toStringAsFixed(2);
+      });
+    }
   }
 
   @override
@@ -121,7 +150,7 @@ double calculateDistanceInKm(int steps, String pace) {
           height: 280,
           child: FittedBox(
             fit: BoxFit.fitWidth,
-            child: Text(_steps),
+            child: Text(_steps.toString()),
           ),
         ),
         SizedBox(
@@ -138,9 +167,11 @@ double calculateDistanceInKm(int steps, String pace) {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(measurement, style: const TextStyle(
+                        Text(_isMetric ? "km" : "mil", style: TextStyle(
                             fontSize: 20,
-                            color: Colors.black54)
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? Colors.white54
+                                : Colors.black54)
                         ),
                         Text(distanceWalked.toString(), style: const TextStyle(fontSize: 24)),
                         const VerticalDivider(
@@ -148,9 +179,11 @@ double calculateDistanceInKm(int steps, String pace) {
                           width: 50,
                         ),
                         Text(caloriesBurned.toString(), style: const TextStyle(fontSize: 24)),
-                        const Text('kcal', style: TextStyle(
+                        Text('kcal', style: TextStyle(
                           fontSize: 20,
-                          color: Colors.black54, )
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white54
+                              : Colors.black54, )
                         ),
                       ],
                     ),

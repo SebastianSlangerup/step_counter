@@ -6,7 +6,7 @@ import 'package:step_counter/pages/settings_page.dart';
 
 
 import 'package:step_counter/pages/user_page.dart';
-import 'package:step_counter/pages/step_counter.dart';
+import 'package:step_counter/pages/step_counter_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -63,7 +63,7 @@ class HomePageState extends State<HomePage> {
                 ),
                 Container(
                   alignment: Alignment.center,
-                  child: defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS ? const StepCounter() : const Text("This is a crime")
+                  child: defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS ? const StepCounterPage() : const Text("This is a crime")
                 ),
                 Container(
                   alignment: Alignment.center,

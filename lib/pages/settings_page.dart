@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:step_counter/components/custom_dropdown.dart';
 import 'package:step_counter/components/ios_switch.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:step_counter/constants/walking_preferences.dart';
 import 'package:step_counter/main.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -34,7 +35,6 @@ class _SettingsState extends State<Settings> {
 
   bool _darkMode = false;
   bool _isMetric = true;
-  List<String> walkingPace = ["Slow", "Average", "Fast"];
   String selection = "";
 
   void initDefaultValues(BuildContext context) async {
@@ -43,7 +43,7 @@ class _SettingsState extends State<Settings> {
 
     var isDarkMode = prefs.getBool('isDarkMode');
     var isMetric = prefs.getBool('isMetric') ?? true;
-    selection = prefs.getString('selection') ?? walkingPace.first;
+    selection = prefs.getString('walkingPreference') ?? 'Average';
     var brightness = MediaQuery.platformBrightnessOf(context);
 
     // DARK MODE SWITCH
@@ -111,7 +111,7 @@ class _SettingsState extends State<Settings> {
           ListTile(
               title: const Text('Walking pace'),
               trailing: CustomDropDownMenu(
-                myList: walkingPace,
+                myList: WalkingPreferences.metricDistanceCalculations.keys.toList(),
                 currentSelection: selection
               )),
         ],
