@@ -4,6 +4,7 @@ import 'package:step_counter/components/button.dart';
 
 class UserPage extends StatelessWidget {
   UserPage({super.key});
+
   final user = FirebaseAuth.instance.currentUser;
 
   void signUserOut() {
@@ -38,12 +39,13 @@ class UserPage extends StatelessWidget {
                   IconButton(
                       onPressed: signUserOut, icon: const Icon(Icons.logout))
                 ],
-                title: Text("Logged in as: ${user.displayName ?? user.email}", 
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  color: Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.white70
-                                  : Colors.black26,
+                title: Text(
+                  "Logged in as: ${user.displayName ?? user.email}",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w200,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white70
+                        : Colors.black26,
                   ),
                 ),
               ),
@@ -56,42 +58,45 @@ class UserPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                                  color: Theme.of(context).brightness == Brightness.dark
-                                  ? Colors.white10
-                                  : Colors.black26,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white10
+                                    : Colors.black26,
                           ),
                         ),
                         padding: const EdgeInsets.all(25),
-                        margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 25),
                         child: Column(
                           children: [
-
                             ListTile(
                               title: const Text('Username:'),
                               trailing: Text(
-                                  "${user.displayName ?? user.email}",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                "${user.displayName ?? user.email}",
+                                style: const TextStyle(
+                                  fontSize: 18,
                                 ),
+                              ),
                             ),
                             ListTile(
                               title: const Text('Is Email verified:'),
                               trailing: Text(
-                                   user.emailVerified ? 'Verified' : 'Not verified',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                user.emailVerified
+                                    ? 'Verified'
+                                    : 'Not verified',
+                                style: const TextStyle(
+                                  fontSize: 18,
                                 ),
+                              ),
                             ),
                             ListTile(
                               title: const Text('Phone number:'),
                               trailing: Text(
-                                  user.phoneNumber ?? 'Non given',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                user.phoneNumber ?? 'Non given',
+                                style: const TextStyle(
+                                  fontSize: 18,
                                 ),
+                              ),
                             ),
                           ],
                         ),
@@ -103,8 +108,7 @@ class UserPage extends StatelessWidget {
                         const SizedBox(height: 50),
                         Center(
                             child: CustomButton(
-                                onTap: resetPassword,
-                                text: "Reset password")),
+                                onTap: resetPassword, text: "Reset password")),
                         const SizedBox(height: 10),
                         Center(
                             child: CustomButton(

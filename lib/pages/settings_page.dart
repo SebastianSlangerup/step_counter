@@ -111,9 +111,9 @@ class _SettingsState extends State<Settings> {
           ListTile(
               title: const Text('Walking pace'),
               trailing: CustomDropDownMenu(
-                myList: WalkingPreferences.metricDistanceCalculations.keys.toList(),
-                currentSelection: selection
-              )),
+                  myList: WalkingPreferences.metricDistanceCalculations.keys
+                      .toList(),
+                  currentSelection: selection)),
         ],
       ),
     );

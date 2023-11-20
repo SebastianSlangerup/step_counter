@@ -14,7 +14,6 @@ class ResetPassword extends StatefulWidget {
 class _ResetPasswordPageState extends State<ResetPassword> {
   final emailController = TextEditingController();
 
-
   void sendResetMail() async {
     showDialog(
       context: context,
@@ -26,27 +25,25 @@ class _ResetPasswordPageState extends State<ResetPassword> {
     );
 
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
-        email: emailController.text
-      );
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text);
 
       if (!context.mounted) return;
 
       Navigator.of(context).pop();
-
     } on FirebaseAuthException catch (e) {
       Navigator.of(context).pop();
 
       showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              "Error: ${e.code}!",
-              style: const TextStyle(),
-            ),
-          );
-        });
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(
+                "Error: ${e.code}!",
+                style: const TextStyle(),
+              ),
+            );
+          });
     }
   }
 
@@ -71,7 +68,6 @@ class _ResetPasswordPageState extends State<ResetPassword> {
                 semanticLabel:
                     'Icon', // Announced in accessibility modes (e.g TalkBack/VoiceOver). This label does not show in the UI.
               ),
-
               const SizedBox(
                 height: 50,
               ),
@@ -90,12 +86,10 @@ class _ResetPasswordPageState extends State<ResetPassword> {
               const SizedBox(
                 height: 25,
               ),
-
               CustomButton(
                 onTap: sendResetMail,
                 text: "Reset password",
               ),
-
               const SizedBox(
                 height: 10,
               ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:step_counter/components/button.dart';
 import 'package:step_counter/components/discrete_button.dart';
 import 'package:step_counter/components/textfield.dart';
-import 'package:step_counter/pages/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -99,7 +98,6 @@ class _LoginPageState extends State<LoginPage> {
     return await Navigator.pushReplacementNamed(context, '/reset_password');
   }
 
-
   Future gotoSignup() async {
     return await Navigator.pushReplacementNamed(context, '/signup');
   }
@@ -160,7 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    DiscreteButton(onTap: resetPassword, text: "Forgot your password?")
+                    DiscreteButton(
+                        onTap: resetPassword, text: "Forgot your password?")
                   ],
                 ),
               ),

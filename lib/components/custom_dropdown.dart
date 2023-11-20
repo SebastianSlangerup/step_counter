@@ -20,7 +20,7 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
 
   void saveSelection(String selection) async {
     final prefs = await SharedPreferences.getInstance();
-    if (! context.mounted) return;
+    if (!context.mounted) return;
 
     prefs.setString('walkingPreference', selection);
     setState(() {
@@ -39,9 +39,9 @@ class _CustomDropDownMenuState extends State<CustomDropDownMenu> {
         saveSelection(value ?? widget.myList.first);
       },
       dropdownMenuEntries:
-        widget.myList.map<DropdownMenuEntry<String>>((String value) {
-          return DropdownMenuEntry<String>(value: value, label: value);
-        }).toList(),
+          widget.myList.map<DropdownMenuEntry<String>>((String value) {
+        return DropdownMenuEntry<String>(value: value, label: value);
+      }).toList(),
     );
   }
 }

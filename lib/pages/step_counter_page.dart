@@ -52,57 +52,6 @@ class _StepCounterPageState extends State<StepCounterPage> {
     });
   }
 
-double kmToMiles(double distance) {
-  double miles = distance * 0.621371;
-  return miles;
-}
-
-double milesToKm(double distance) {
-  double km = distance / 1.621371;
-  return km;
-}
-
-double distanceToKcal(String pace, double distanceInMiles) {
-  double caloriesPerMile;
-
-  switch (pace) {
-    case 'Slow':
-      caloriesPerMile = 60;
-      break;
-    case 'Average':
-      caloriesPerMile = 70;
-      break;
-    case 'Fast':
-      caloriesPerMile = 85;
-      break;
-    default:
-      throw ArgumentError('Invalid pace. Choose "Slow", "Average", or "Fast".');
-  }
-
-  return distanceInMiles * caloriesPerMile;
-}
-
-double calculateDistanceInKm(int steps, String pace) {
-  double stepLengthMeters;
-
-  switch (pace) {
-    case 'Slow':
-      stepLengthMeters = 0.65;
-      break;
-    case 'Average':
-      stepLengthMeters = 0.75;
-      break;
-    case 'Fast':
-      stepLengthMeters = 0.85;
-      break;
-    default:
-      throw ArgumentError('Invalid pace. Choose "Slow", "Average", or "Fast".');
-  }
-
-  double distanceMeters = steps * stepLengthMeters;
-  return distanceMeters / 1000; // Convert meters to kilometers
-}
-
   void initPlatformState() async {
     _pedestrianStatusStream = Pedometer.pedestrianStatusStream;
     _pedestrianStatusStream
@@ -113,29 +62,33 @@ double calculateDistanceInKm(int steps, String pace) {
     _stepCountStream.listen(onStepCount);
 
     final prefs = await SharedPreferences.getInstance();
-    if (! context.mounted) return;
+    if (!context.mounted) return;
 
     var steps = prefs.getInt('stepsWalked') ?? int.parse(_steps);
     setState(() {
       _steps = steps.toString();
     });
 
-    String walkingPreference = prefs.getString('walkingPreference') ?? 'Average';
+    String walkingPreference =
+        prefs.getString('walkingPreference') ?? 'Average';
     _isMetric = prefs.getBool('isMetric') ?? true;
 
     setState(() {
-      distanceWalked = (steps / WalkingPreferences.metricDistanceCalculations[walkingPreference]!)
+      distanceWalked = (steps /
+              WalkingPreferences.metricDistanceCalculations[walkingPreference]!)
           .toStringAsFixed(2);
     });
 
     setState(() {
-      caloriesBurned = (double.parse(distanceWalked) * caloriesPerKilometer).toStringAsFixed(1);
+      caloriesBurned = (double.parse(distanceWalked) * caloriesPerKilometer)
+          .toStringAsFixed(1);
     });
 
     // Recalculate the distance walked to imperial measurement
-    if (! _isMetric) {
+    if (!_isMetric) {
       setState(() {
-        distanceWalked = (double.parse(distanceWalked) * 0.621).toStringAsFixed(2);
+        distanceWalked =
+            (double.parse(distanceWalked) * 0.621).toStringAsFixed(2);
       });
     }
   }
@@ -167,24 +120,29 @@ double calculateDistanceInKm(int steps, String pace) {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(_isMetric ? "km" : "mil", style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white54
-                                : Colors.black54)
-                        ),
-                        Text(distanceWalked.toString(), style: const TextStyle(fontSize: 24)),
+                        Text(_isMetric ? "km" : "mil",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.white54
+                                    : Colors.black54)),
+                        Text(distanceWalked.toString(),
+                            style: const TextStyle(fontSize: 24)),
                         const VerticalDivider(
                           thickness: 2,
                           width: 50,
                         ),
-                        Text(caloriesBurned.toString(), style: const TextStyle(fontSize: 24)),
-                        Text('kcal', style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white54
-                              : Colors.black54, )
-                        ),
+                        Text(caloriesBurned.toString(),
+                            style: const TextStyle(fontSize: 24)),
+                        Text('kcal',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.white54
+                                  : Colors.black54,
+                            )),
                       ],
                     ),
                   ))
